@@ -1,5 +1,4 @@
-(function ()
-{
+(function () {
     'use strict';
 
     angular
@@ -7,35 +6,46 @@
         .controller('TodoController', TodoController);
 
     /** @ngInject */
-    function TodoController($document, $mdDialog, $mdSidenav, Tasks, Tags)
-    {
+    function TodoController($document, $mdDialog, $mdSidenav, Tasks, Tags, msApi, $http, $mdToast) {
         var vm = this;
 
-        // Data
-        vm.tasks = Tasks.data;
+
+        //vm.tasks = Tasks.data.results;
+
+        $http({
+            method: 'GET',
+            url: '/todo/todolist/?format=json'
+        }).then(function successCallback(response) {
+            vm.tasks = response.data.results;
+            popToast(vm.tasks);
+        }, function errorCallback(response) {
+
+        });
+
+
         vm.tags = Tags.data;
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
         vm.projects = {
-            'creapond'    : 'Project Creapond',
+            'creapond': 'Project Creapond',
             'withinpixels': 'Project Withinpixels'
         };
         vm.selectedFilter = {
-            filter : 'Start Date',
+            filter: 'Start Date',
             dueDate: 'Next 3 days'
         };
         vm.selectedProject = 'creapond';
 
         // Tasks will be filtered against these models
         vm.taskFilters = {
-            search   : '',
-            tags     : [],
+            search: '',
+            tags: [],
             completed: '',
-            deleted  : false,
+            deleted: false,
             important: '',
-            starred  : '',
+            starred: '',
             startDate: '',
-            dueDate  : ''
+            dueDate: ''
         };
         vm.taskFiltersDefaults = angular.copy(vm.taskFilters);
         vm.showAllTasks = true;
@@ -44,12 +54,12 @@
         vm.taskOrderDescending = false;
 
         vm.sortableOptions = {
-            handle        : '.handle',
-            forceFallback : true,
-            ghostClass    : 'todo-item-placeholder',
-            fallbackClass : 'todo-item-ghost',
+            handle: '.handle',
+            forceFallback: true,
+            ghostClass: 'todo-item-placeholder',
+            fallbackClass: 'todo-item-ghost',
             fallbackOnBody: true,
-            sort          : true
+            sort: true
         };
         vm.msScrollOptions = {
             suppressScrollX: true
@@ -75,18 +85,14 @@
         /**
          * Initialize the controller
          */
-        function init()
-        {
-            angular.forEach(vm.tasks, function (task)
-            {
-                if ( task.startDate )
-                {
+        function init() {
+            angular.forEach(vm.tasks, function (task) {
+                if (task.startDate) {
                     task.startDate = new Date(task.startDate);
                     task.startDateTimestamp = task.startDate.getTime();
                 }
 
-                if ( task.dueDate )
-                {
+                if (task.dueDate) {
                     task.dueDate = new Date(task.dueDate);
                     task.dueDateTimestamp = task.dueDate.getTime();
                 }
@@ -98,8 +104,7 @@
          *
          * @param e
          */
-        function preventDefault(e)
-        {
+        function preventDefault(e) {
             e.preventDefault();
             e.stopPropagation();
         }
@@ -110,17 +115,16 @@
          * @param ev
          * @param task
          */
-        function openTaskDialog(ev, task)
-        {
+        function openTaskDialog(ev, task) {
             $mdDialog.show({
-                controller         : 'TaskDialogController',
-                controllerAs       : 'vm',
-                templateUrl        : '/static/app/main/apps/todo/dialogs/task/task-dialog.html',
-                parent             : angular.element($document.body),
-                targetEvent        : ev,
+                controller: 'TaskDialogController',
+                controllerAs: 'vm',
+                templateUrl: '/static/app/main/apps/todo/dialogs/task/task-dialog.html',
+                parent: angular.element($document.body),
+                targetEvent: ev,
                 clickOutsideToClose: true,
-                locals             : {
-                    Task : task,
+                locals: {
+                    Task: task,
                     Tasks: vm.tasks,
                     event: ev
                 }
@@ -133,8 +137,7 @@
          * @param task
          * @param event
          */
-        function toggleCompleted(task, event)
-        {
+        function toggleCompleted(task, event) {
             event.stopPropagation();
             task.completed = !task.completed;
         }
@@ -144,8 +147,7 @@
          *
          * @param sidenavId
          */
-        function toggleSidenav(sidenavId)
-        {
+        function toggleSidenav(sidenavId) {
             $mdSidenav(sidenavId).toggle();
         }
 
@@ -154,8 +156,7 @@
          *
          * @param filter
          */
-        function toggleFilter(filter)
-        {
+        function toggleFilter(filter) {
             vm.taskFilters[filter] = !vm.taskFilters[filter];
 
             checkFilters();
@@ -165,14 +166,11 @@
          * Toggles filter with true or empty string
          * @param filter
          */
-        function toggleFilterWithEmpty(filter)
-        {
-            if ( vm.taskFilters[filter] === '' )
-            {
+        function toggleFilterWithEmpty(filter) {
+            if (vm.taskFilters[filter] === '') {
                 vm.taskFilters[filter] = true;
             }
-            else
-            {
+            else {
                 vm.taskFilters[filter] = '';
             }
 
@@ -182,8 +180,7 @@
         /**
          * Reset filters
          */
-        function resetFilters()
-        {
+        function resetFilters() {
             vm.showAllTasks = true;
             vm.taskFilters = angular.copy(vm.taskFiltersDefaults);
         }
@@ -192,8 +189,7 @@
          * Check filters and mark showAllTasks
          * as true if no filters selected
          */
-        function checkFilters()
-        {
+        function checkFilters() {
             vm.showAllTasks = !!angular.equals(vm.taskFiltersDefaults, vm.taskFilters);
         }
 
@@ -203,10 +199,8 @@
          * @param item
          * @returns {boolean}
          */
-        function filterByStartDate(item)
-        {
-            if ( vm.taskFilters.startDate === true )
-            {
+        function filterByStartDate(item) {
+            if (vm.taskFilters.startDate === true) {
                 return item.startDate === new Date();
             }
 
@@ -219,10 +213,8 @@
          * @param item
          * @returns {boolean}
          */
-        function filterByDueDate(item)
-        {
-            if ( vm.taskFilters.dueDate === true )
-            {
+        function filterByDueDate(item) {
+            if (vm.taskFilters.dueDate === true) {
                 return !(item.dueDate === null || item.dueDate.length === 0);
             }
 
@@ -234,16 +226,13 @@
          *
          * @param tag
          */
-        function toggleTagFilter(tag)
-        {
+        function toggleTagFilter(tag) {
             var i = vm.taskFilters.tags.indexOf(tag);
 
-            if ( i > -1 )
-            {
+            if (i > -1) {
                 vm.taskFilters.tags.splice(i, 1);
             }
-            else
-            {
+            else {
                 vm.taskFilters.tags.push(tag);
             }
 
@@ -256,9 +245,20 @@
          * @param tag
          * @returns {boolean}
          */
-        function isTagFilterExists(tag)
-        {
+        function isTagFilterExists(tag) {
             return vm.taskFilters.tags.indexOf(tag) > -1;
         }
+
+        function popToast(msg) {
+            var csrf = document.getElementsByName("csrfmiddlewaretoken");
+            console.log(csrf[0].value);
+            $mdToast.show(
+                $mdToast.simple()
+                    .textContent(csrf)
+                    .position('bottom')
+                    .hideDelay(6000)
+            );
+        }
+
     }
 })();

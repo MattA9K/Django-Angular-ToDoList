@@ -1,5 +1,4 @@
-(function ()
-{
+(function () {
     'use strict';
 
     angular
@@ -7,8 +6,7 @@
         .controller('TaskDialogController', TaskDialogController);
 
     /** @ngInject */
-    function TaskDialogController($mdDialog, Task, Tasks, event)
-    {
+    function TaskDialogController($mdDialog, Task, Tasks, event, $http) {
         var vm = this;
 
         // Data
@@ -17,21 +15,20 @@
         vm.tasks = Tasks;
         vm.newTask = false;
 
-        if ( !vm.task )
-        {
+        if (!vm.task) {
             vm.task = {
-                'id'                : '',
-                'title'             : '',
-                'notes'             : '',
-                'startDate'         : new Date(),
+                'id': 1,
+                'title': '',
+                'notes': '',
+                'start_date': new Date(),
                 'startDateTimeStamp': new Date().getTime(),
-                'dueDate'           : '',
-                'dueDateTimeStamp'  : '',
-                'completed'         : false,
-                'starred'           : false,
-                'important'         : false,
-                'deleted'           : false,
-                'tags'              : []
+                'due_date': '',
+                'dueDateTimeStamp': '',
+                'completed': false,
+                'starred': false,
+                'important': false,
+                'deleted': false,
+                'tags': []
             };
             vm.title = 'New Task';
             vm.newTask = true;
@@ -47,11 +44,14 @@
 
         //////////
 
+
+
+
+
         /**
          * Add new task
          */
-        function addNewTask()
-        {
+        function addNewTask() {
             vm.tasks.unshift(vm.task);
 
             closeDialog();
@@ -60,14 +60,28 @@
         /**
          * Save task
          */
-        function saveTask()
-        {
+        function saveTask() {
             // Dummy save action
-            for ( var i = 0; i < vm.tasks.length; i++ )
-            {
-                if ( vm.tasks[i].id === vm.task.id )
-                {
+            for (var i = 0; i < vm.tasks.length; i++) {
+                if (vm.tasks[i].id === vm.task.id) {
                     vm.tasks[i] = angular.copy(vm.task);
+                    console.log('TASK SAVED!!');
+
+                    var csrf = document.getElementsByName("csrfmiddlewaretoken");
+
+                    $http({
+                        method: 'PUT',
+                        url: '/todo/' + vm.tasks[i].id + '/?format=json',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken':csrf[0].value
+                        },
+                        data: vm.tasks[i]
+                    }).then(function successCallback(response) {
+                        console.log('SUCCESS WITH PUT METHOD');
+                    }, function errorCallback(response) {
+                        console.log('ERROR WITH PUT METHOD');
+                    });
                     break;
                 }
             }
@@ -78,8 +92,7 @@
         /**
          * Delete task
          */
-        function deleteTask()
-        {
+        function deleteTask() {
             var confirm = $mdDialog.confirm()
                 .title('Are you sure?')
                 .content('The Task will be deleted.')
@@ -88,19 +101,15 @@
                 .cancel('Cancel')
                 .targetEvent(event);
 
-            $mdDialog.show(confirm).then(function ()
-            {
+            $mdDialog.show(confirm).then(function () {
                 // Dummy delete action
-                for ( var i = 0; i < vm.tasks.length; i++ )
-                {
-                    if ( vm.tasks[i].id === vm.task.id )
-                    {
+                for (var i = 0; i < vm.tasks.length; i++) {
+                    if (vm.tasks[i].id === vm.task.id) {
                         vm.tasks[i].deleted = true;
                         break;
                     }
                 }
-            }, function ()
-            {
+            }, function () {
                 // Cancel Action
             });
         }
@@ -112,12 +121,11 @@
          * @param chip
          * @returns {#label: *, color: string#}
          */
-        function newTag(chip)
-        {
+        function newTag(chip) {
             var tagColors = ['#388E3C', '#F44336', '#FF9800', '#0091EA', '#9C27B0'];
 
             return {
-                name : chip,
+                name: chip,
                 label: chip,
                 color: tagColors[Math.floor(Math.random() * (tagColors.length))]
             };
@@ -126,8 +134,7 @@
         /**
          * Close dialog
          */
-        function closeDialog()
-        {
+        function closeDialog() {
             $mdDialog.hide();
         }
     }

@@ -249,11 +249,12 @@
          page3: $resource(api.baseUrl + 'timeline/page-3.json')
          };
 
-         api.todo = {
-         tasks: $resource(api.baseUrl + 'todo/tasks.json'),
-         tags : $resource(api.baseUrl + 'todo/tags.json')
-         };
          */
+
+        api.todo = {
+            tasks: $resource(api.baseUrl + '/todo/todolist/?format=json'),
+            tags : $resource(api.baseUrl + 'todo/tags.json')
+        };
 
         return api;
     }

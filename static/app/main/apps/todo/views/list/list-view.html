@@ -18,7 +18,7 @@
 
             <div class="info" flex>
                 <div class="title">
-                    {#task.title#}
+                    {#task.title#} {# task.id #}
                 </div>
 
                 <div class="notes">
@@ -52,8 +52,8 @@
                                        translate-attr-aria-label="TODO.TOGGLE_DONE">
                                 <md-icon ng-class="task.completed === false ? 'grey-fg' : 'blue-fg'"
                                          md-font-icon="icon-checkbox-marked-circle" class="s18"></md-icon>
-                                <span ng-show="!task.completed" translate="TODO.MARK_AS_DONE">Mark as done</span>
-                                <span ng-show="task.completed" translate="TODO.MARK_AS_UNDONE">Mark as undone</span>
+                                <span ng-show="!task.completed" >Mark as done</span>
+                                <span ng-show="task.completed" >Mark as undone</span>
                             </md-button>
                         </md-menu-item>
 
@@ -62,9 +62,9 @@
                                        translate-attr-aria-label="TODO.TOGGLE_IMPORTANT">
                                 <md-icon ng-class="task.important === false ? 'grey-fg' : 'red-600-fg'"
                                          md-font-icon="icon-alert-circle" class="s18"></md-icon>
-                                    <span ng-show="!task.important" translate="TODO.MARK_AS_IMPORTANT"> Mark as
+                                    <span ng-show="!task.important" > Mark as
                                         important</span>
-                                    <span ng-show="task.important" translate="TODO.REMOVE_IMPORTANT">Remove
+                                    <span ng-show="task.important" >Remove
                                         important</span>
                             </md-button>
                         </md-menu-item>
@@ -75,8 +75,8 @@
                                 <md-icon ng-class="task.starred === false ? 'grey-fg' : 'amber-600-fg'"
                                          md-font-icon="icon-star"
                                          class="s18"></md-icon>
-                                <span ng-show="!task.starred" translate="TODO.ADD_STAR">Add star</span>
-                                <span ng-show="task.starred" translate="TODO.REMOVE_STAR">Remove star</span>
+                                <span ng-show="!task.starred" >Add star</span>
+                                <span ng-show="task.starred" >Remove star</span>
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
