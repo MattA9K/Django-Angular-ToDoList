@@ -25,6 +25,17 @@ class UserDetail(generics.RetrieveAPIView):
         return Response({'user': self.object}, template_name='user_detail.html')
 """
 
+class ToDoTagsList(generics.ListAPIView):
+    def get(self, request, format=None):
+        queryset = ToDoTag.objects.all()
+        serializer = ToDoTagSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class ToDoTagDetail(APIView):
+    def get(self, request, name, format=None):
+        queryset = ToDoTag.objects.get(name=name)
+        serializer = ToDoTagSerializer(queryset, many=False)
+        return Response(serializer.data)
 
 # Create your views here.
 class ToDoList(generics.ListAPIView):

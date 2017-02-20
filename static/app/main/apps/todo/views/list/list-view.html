@@ -48,7 +48,7 @@
 
                     <md-menu-content width="3">
                         <md-menu-item>
-                            <md-button ng-click="task.completed = !task.completed" aria-label="Toggle done"
+                            <md-button ng-click="task.completed = !task.completed; vm.saveTask(task)" aria-label="Toggle done"
                                        translate-attr-aria-label="TODO.TOGGLE_DONE">
                                 <md-icon ng-class="task.completed === false ? 'grey-fg' : 'blue-fg'"
                                          md-font-icon="icon-checkbox-marked-circle" class="s18"></md-icon>
@@ -58,7 +58,7 @@
                         </md-menu-item>
 
                         <md-menu-item>
-                            <md-button ng-click="task.important = !task.important" aria-label="Toggle important"
+                            <md-button ng-click="task.important = !task.important; vm.saveTask(task)" aria-label="Toggle important"
                                        translate-attr-aria-label="TODO.TOGGLE_IMPORTANT">
                                 <md-icon ng-class="task.important === false ? 'grey-fg' : 'red-600-fg'"
                                          md-font-icon="icon-alert-circle" class="s18"></md-icon>
@@ -70,7 +70,7 @@
                         </md-menu-item>
 
                         <md-menu-item>
-                            <md-button ng-click="task.starred = !task.starred" aria-label="Toggle star"
+                            <md-button ng-click="task.starred = !task.starred; vm.saveTask(task)" aria-label="Toggle star"
                                        translate-attr-aria-label="TODO.TOGGLE_STAR">
                                 <md-icon ng-class="task.starred === false ? 'grey-fg' : 'amber-600-fg'"
                                          md-font-icon="icon-star"

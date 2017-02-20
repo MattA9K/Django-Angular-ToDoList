@@ -10,20 +10,31 @@
         var vm = this;
 
 
-        //vm.tasks = Tasks.data.results;
+        vm.tasks = [];
 
         $http({
             method: 'GET',
             url: '/todo/todolist/?format=json'
         }).then(function successCallback(response) {
             vm.tasks = response.data;
-            popToast(vm.tasks);
+
         }, function errorCallback(response) {
 
         });
 
 
-        vm.tags = Tags.data;
+        $http({
+            method: 'GET',
+            url: '/todo/todotagslist/?format=json'
+        }).then(function successCallback(response) {
+            vm.tags = response.data;
+
+        }, function errorCallback(response) {
+
+        });
+
+
+        vm.tags = [];
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
         vm.projects = {
@@ -77,6 +88,7 @@
         vm.resetFilters = resetFilters;
         vm.toggleTagFilter = toggleTagFilter;
         vm.isTagFilterExists = isTagFilterExists;
+        vm.saveTask = saveTask;
 
         init();
 
@@ -140,7 +152,35 @@
         function toggleCompleted(task, event) {
             event.stopPropagation();
             task.completed = !task.completed;
+            console.log('task completed toggled!');
+            vm.saveTask(task);
         }
+
+
+        /**
+         * Toggle completed status of the task
+         *
+         * @param task
+         * @param event
+         */
+        function saveTask(task) {
+            var csrf = document.getElementsByName("csrfmiddlewaretoken");
+            $http({
+                method: 'PUT',
+                url: '/todo/' + task.id + '/?format=json',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf[0].value
+                },
+                data: task
+            }).then(function successCallback(response) {
+                console.log('SUCCESS WITH PUT METHOD');
+            }, function errorCallback(response) {
+                console.log('ERROR WITH PUT METHOD');
+            });
+            console.log('task state changed!');
+        }
+
 
         /**
          * Toggle sidenav
@@ -149,6 +189,7 @@
          */
         function toggleSidenav(sidenavId) {
             $mdSidenav(sidenavId).toggle();
+            console.log('side nav toggled!');
         }
 
         /**
@@ -249,16 +290,6 @@
             return vm.taskFilters.tags.indexOf(tag) > -1;
         }
 
-        function popToast(msg) {
-            var csrf = document.getElementsByName("csrfmiddlewaretoken");
-            console.log(csrf[0].value);
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent(csrf)
-                    .position('bottom')
-                    .hideDelay(6000)
-            );
-        }
 
     }
 })();

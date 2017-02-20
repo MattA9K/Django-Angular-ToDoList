@@ -88,6 +88,7 @@
 
             closeDialog();
         }
+        
 
         /**
          * Delete task
