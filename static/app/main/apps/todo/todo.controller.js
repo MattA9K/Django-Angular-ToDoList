@@ -16,7 +16,7 @@
             method: 'GET',
             url: '/todo/todolist/?format=json'
         }).then(function successCallback(response) {
-            vm.tasks = response.data.results;
+            vm.tasks = response.data;
             popToast(vm.tasks);
         }, function errorCallback(response) {
 

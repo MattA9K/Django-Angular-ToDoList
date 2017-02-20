@@ -31,6 +31,12 @@ class ToDoItemSerializer(serializers.Serializer):
     deleted = serializers.BooleanField()
     tags = ToDoTagSerializer(many=True, read_only=False) #serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
+    def create(self, validated_data):
+        """
+        Create and return a new `Snippet` instance, given the validated data.
+        """
+        return ToDoItem.objects.create(**validated_data)
+
     def update(self, instance, validated_data):
         print('HELLO?????')
         print(json.loads(json.dumps(validated_data.get('tags', instance.tags))))

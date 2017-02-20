@@ -24,8 +24,18 @@ class UserDetail(generics.RetrieveAPIView):
 
 # Create your views here.
 class ToDoList(generics.ListAPIView):
-    queryset = ToDoItem.objects.all()
-    serializer_class = ToDoItemSerializer
+    def get(self, request, format=None):
+        queryset = ToDoItem.objects.all()
+        serializer = ToDoItemSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = ToDoItemSerializer(data=request.data)
+        print("SELF REQUEST USER2: " + str(serializer))
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ToDoDetail(APIView):

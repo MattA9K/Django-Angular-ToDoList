@@ -59,7 +59,7 @@
         ];
 
         vm.layoutMode = 'wide';
-        vm.layoutStyle = $cookies.get('layoutStyle') || 'verticalNavigation';
+        vm.layoutStyle = 'contentOnly';
 
         // Methods
         vm.setActiveTheme = setActiveTheme;
