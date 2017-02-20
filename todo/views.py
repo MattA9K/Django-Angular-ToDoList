@@ -4,8 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status, generics
 from django.http import Http404
 from todo.models import ToDoTag, ToDoItem
-from todo.serializers import ToDoItemSerializer, ToDoTagSerializer
+from todo.serializers import ToDoItemSerializer, ToDoTagSerializer, ToDoItemSerializer2
 from rest_framework import authentication, permissions
+from django.utils.six import BytesIO
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
 
 
 """
@@ -30,12 +34,41 @@ class ToDoList(generics.ListAPIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = ToDoItemSerializer(data=request.data)
-        print("SELF REQUEST USER2: " + str(serializer))
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #serializer = ToDoItemSerializer(data=request.data)
+        print("SELF REQUEST USER2: ")
+
+        content = JSONRenderer().render(request.data)
+
+        stream = BytesIO(content)
+        data = JSONParser().parse(stream)
+
+        serializer2 = ToDoItemSerializer2(data=data)
+        #serializer3 = ToDoTagSerializer()
+
+
+
+
+        if serializer2.is_valid():
+            serializer2.save()
+            print('Tags:')
+            print(serializer2.data)
+            i = 0
+            for item in request.data['tags']:
+                tag_content = JSONRenderer().render(item)
+                stream_tag = BytesIO(tag_content)
+                data_tag = JSONParser().parse(stream_tag)
+                print(serializer2.initial_data['tags'][i])
+                print(tag_content)
+                print(item['id'])
+                print('TOTAL TODO ITEMS: ' + str(ToDoItem.objects.count()))
+                parent = ToDoItem.objects.get(id=ToDoItem.objects.count())
+                new_tag = ToDoTag(name=item['name'], color=item['color'], parent=parent,
+                                  label=item['label'])
+                new_tag.save()
+
+                i += 1
+            return Response(serializer2.validated_data, status=status.HTTP_201_CREATED)
+        return Response(serializer2.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ToDoDetail(APIView):

@@ -124,11 +124,18 @@
         function newTag(chip) {
             var tagColors = ['#388E3C', '#F44336', '#FF9800', '#0091EA', '#9C27B0'];
 
-            return {
+            console.log('NEW TAG ADDED!!');
+            var newTag = {
                 name: chip,
                 label: chip,
                 color: tagColors[Math.floor(Math.random() * (tagColors.length))]
             };
+
+            console.log(newTag.name);
+            console.log(newTag.label);
+            console.log(newTag.color);
+
+            return newTag;
         }
 
         /**

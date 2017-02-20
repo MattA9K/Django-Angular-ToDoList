@@ -8,19 +8,19 @@ import json
 
 
 class ToDoTagSerializer(serializers.Serializer):
-    id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    id = serializers.PrimaryKeyRelatedField(many=False, read_only=True, required=False)
     name = serializers.CharField(required=False, allow_blank=True, max_length=30)
     label = serializers.CharField(required=False, allow_blank=True, max_length=30)
     color = serializers.CharField(required=False, allow_blank=True, max_length=30)
-    parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    parent = serializers.PrimaryKeyRelatedField(many=False, read_only=True, required=False)
 
     class Meta:
-        model = ToDoItem
+        model = ToDoTag
         fields = ('id','name','label','color','parent')
 
 
 class ToDoItemSerializer(serializers.Serializer):
-    id = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    id = serializers.PrimaryKeyRelatedField(many=False, read_only=True, required=False)
     title = serializers.CharField(required=False, allow_blank=True, max_length=100)
     notes = serializers.CharField(required=False, allow_blank=True, max_length=600)
     start_date = serializers.DateTimeField()
@@ -35,6 +35,8 @@ class ToDoItemSerializer(serializers.Serializer):
         """
         Create and return a new `Snippet` instance, given the validated data.
         """
+        print('validated data:')
+        print(validated_data)
         return ToDoItem.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -67,3 +69,9 @@ class ToDoItemSerializer(serializers.Serializer):
     class Meta:
         model = ToDoItem
         fields = ('id','title','notes','start_date','due_date','completed','starred','important','deleted','tags')
+
+
+class ToDoItemSerializer2(serializers.ModelSerializer):
+    class Meta:
+        model = ToDoItem
+        fields = ('title','notes','start_date','due_date','completed','starred','important','deleted')
