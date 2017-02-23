@@ -37,10 +37,10 @@
         vm.tags = [];
         vm.completed = [];
         vm.colors = ['blue', 'blue-grey', 'orange', 'pink', 'purple'];
-        vm.projects = {
-            'creapond': 'Project Creapond',
-            'withinpixels': 'Project Withinpixels'
-        };
+        // vm.projects = {
+        //     'creapond': 'Project Creapond',
+        //     'withinpixels': 'Project Withinpixels'
+        // };
         vm.selectedFilter = {
             filter: 'Start Date',
             dueDate: 'Next 3 days'

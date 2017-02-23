@@ -46,14 +46,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'rest_framework.authtoken',
 
-    'cinicraft_home',
-    'forum',
-    'author',
     'todo',
-    'cininotes',
 
-    # NON-CINICRAFT RELATED:
-    'snippets.apps.SnippetsConfig',
 ]
 
 

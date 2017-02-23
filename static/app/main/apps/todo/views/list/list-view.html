@@ -22,7 +22,9 @@
                 </div>
 
                 <div class="notes">
-                    {#task.notes#}
+                    <p>
+                        {# task.notes #}
+                    </p>
                 </div>
 
                 <div class="tags" layout="row" layout-align="start center" layout-wrap>
@@ -42,7 +44,7 @@
 
                 <md-menu>
                     <md-button class="md-icon-button" aria-label="More">
-                        <md-icon md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
+                        <md-icon class="md-accent" md-font-icon="icon-dots-vertical" ng-click="$mdOpenMenu($event)"></md-icon>
                     </md-button>
 
                     <md-menu-content width="3">

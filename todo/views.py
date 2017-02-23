@@ -9,6 +9,8 @@ from rest_framework import authentication, permissions
 from django.utils.six import BytesIO
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from django.http import HttpResponse
+from django.template import loader
 
 
 
@@ -24,6 +26,13 @@ class UserDetail(generics.RetrieveAPIView):
         self.object = self.get_object()
         return Response({'user': self.object}, template_name='user_detail.html')
 """
+
+def index(request):
+    template = loader.get_template('index.html')
+    context = {
+        "message": "Welcome to CiniCrafts official website!",
+    }
+    return HttpResponse(template.render(context, request))
 
 class ToDoTagsList(generics.ListAPIView):
     def get(self, request, format=None):
