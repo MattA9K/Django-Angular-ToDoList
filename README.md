@@ -1,4 +1,5 @@
-# Django REST CRUD
+# Material Design - To Do List
+## Powered By Django-REST and AngularJS
 
 
 A simple Djangon REST app scaffold to be used as a starting point for new Django REST projects.
