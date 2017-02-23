@@ -11,17 +11,17 @@
 
         <md-dialog-content ms-scroll>
             <md-input-container class="md-block">
-                <label translate="TODO.TITLE">Title</label>
+                <label >Title</label>
                 <input name="title" ng-model="vm.task.title" required md-autofocus>
                 <div ng-messages="taskForm.title.$error" ng-show="taskForm.title.$touched" role="alert">
                     <div ng-message="required">
-                        <span translate="TODO.ERRORS.TITLE_REQUIRED">Title field is required</span>
+                        <span >Title field is required</span>
                     </div>
                 </div>
             </md-input-container>
 
             <div class="tags">
-                <label translate="TODO.TAGS">Tags</label>
+                <label>Tags</label>
                 <md-chips ng-model="vm.task.tags" md-transform-chip="vm.newTag($chip)">
                     <md-chip-template>
                         <span ng-if="$chip.color" class="color" ng-style="{'background-color':$chip.color}"></span>
@@ -32,18 +32,18 @@
 
             <div layout-xs="column" layout="row">
                 <div flex class="date-container">
-                    <label translate="TODO.START_DATE">Start Date</label>
+                    <label >Start Date</label>
                     <md-datepicker flex ng-model="vm.task.startDate" md-placeholder="Start Date"></md-datepicker>
                 </div>
 
                 <div flex class="date-container">
-                    <label translate="TODO.DUE_DATE">Due Date</label>
+                    <label >Due Date</label>
                     <md-datepicker flex ng-model="vm.task.dueDate" md-placeholder="Due Date"></md-datepicker>
                 </div>
             </div>
 
             <div class="notes">
-                <label translate="TODO.NOTES">Notes</label>
+                <label >Notes</label>
                 <text-angular ng-model="vm.task.notes"></text-angular>
             </div>
 
@@ -65,8 +65,7 @@
                         <span class="size">(350 Kb)</span>
                     </div>
 
-                    <md-button class="md-icon-button" aria-label="Delete attachment" translate
-                               translate-attr-aria-label="TODO.DELETE_ATTACHMENT">
+                    <md-button class="md-icon-button" aria-label="Delete attachment">
                         <md-icon md-font-icon="icon-close" class="s16"></md-icon>
                     </md-button>
                 </div>
@@ -78,33 +77,30 @@
                 <md-button type="submit" ng-if="!vm.newTask" ng-click="vm.saveTask()"
                            class="send-button md-accent md-raised"
                            ng-disabled="taskForm.$invalid || taskForm.$pristine"
-                           aria-label="SAVE" translate="TODO.SAVE" translate-attr-aria-label="TODO.SAVE">
+                           aria-label="SAVE">
                     SAVE
                 </md-button>
 
                 <md-button type="submit" ng-if="vm.newTask" ng-click="vm.addNewTask()"
                            class="send-button md-accent md-raised"
                            ng-disabled="taskForm.$invalid || taskForm.$pristine"
-                           aria-label="Add Task" translate="TODO.ADD_TASK" translate-attr-aria-label="TODO.ADD_TASK">
+                           aria-label="Add Task">
                     ADD TASK
                 </md-button>
 
-                <md-button class="md-icon-button" aria-label="Attach file" translate
-                           translate-attr-aria-label="TODO.ATTACH_FILE">
+                <md-button class="md-icon-button" aria-label="Attach file" >
                     <md-icon md-font-icon="icon-paperclip"></md-icon>
                 </md-button>
 
-                <md-button class="md-icon-button" aria-label="Insert picture" translate
-                           translate-attr-aria-label="TODO.INSERT_PICTURE">
+                <md-button class="md-icon-button" aria-label="Insert picture" >
                     <md-icon md-font-icon="icon-file-image-box"></md-icon>
                 </md-button>
             </div>
 
             <div layout="row">
-                <md-button class="md-icon-button" ng-click="vm.deleteTask($event)" aria-label="Delete" translate
-                           translate-attr-aria-label="TODO.DELETE">
+                <md-button class="md-icon-button" ng-click="vm.deleteTask($event)" aria-label="Delete" >
                     <md-icon md-font-icon="icon-delete"></md-icon>
-                    <md-tooltip><span translate="TODO.DELETE">DELETE</span></md-tooltip>
+                    <md-tooltip><span >DELETE</span></md-tooltip>
                 </md-button>
             </div>
         </md-dialog-actions>

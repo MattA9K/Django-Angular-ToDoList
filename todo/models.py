@@ -23,8 +23,8 @@ LABEL_CHOICES = (
 class ToDoItem(models.Model):
     title = models.CharField(max_length=100, blank=True, default='')
     notes = models.TextField()
-    start_date = models.DateTimeField(auto_now_add=False, blank=True)
-    due_date = models.DateTimeField(auto_now_add=False, blank=True)
+    start_date = models.CharField(max_length=100, blank=True, default='')
+    due_date = models.CharField(max_length=100, blank=True, default='')
     completed = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
     important = models.BooleanField(default=False)

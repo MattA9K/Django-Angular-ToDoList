@@ -27,10 +27,9 @@ class SnippetList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class SnippetDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
+
     def get_object(self, pk):
         try:
             return Snippet.objects.get(pk=pk)
@@ -56,9 +55,11 @@ class SnippetDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 
 class UserDetail(generics.RetrieveAPIView):

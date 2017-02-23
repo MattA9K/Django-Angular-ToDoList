@@ -14,7 +14,7 @@
                 }
             },
             accent    : {
-                name: 'light-blue',
+                name: 'deep-orange',
                 hues: {
                     'default': '600',
                     'hue-1'  : '400',
@@ -26,10 +26,10 @@
                 name: 'red'
             },
             background: {
-                name: 'deep-purple',
+                name: 'blue-grey',
                 hues: {
-                    'default': '500',
-                    'hue-1'  : '800',
+                    'default': '600',
+                    'hue-1'  : '200',
                     'hue-2'  : '300',
                     'hue-3'  : '100'
                 }

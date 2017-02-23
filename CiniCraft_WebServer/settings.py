@@ -56,6 +56,10 @@ INSTALLED_APPS = [
     'snippets.apps.SnippetsConfig',
 ]
 
+
+
+DATETIME_FORMAT = "%a%b%d%Y%H%M%S%z"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -141,7 +145,7 @@ REST_FRAMEWORK = {
 }
 
 
-# Internationalization
+# Internationalization   Thu Feb 23 2017 13:06:56 GMT-0800 (PST)
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
@@ -163,3 +167,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+DATETIME_INPUT_FORMATS = ['%a %b %d %Y %H:%M:%S: GMT-%z (PST)']

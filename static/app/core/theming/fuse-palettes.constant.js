@@ -20,7 +20,7 @@
                 'A400': '#5688d3',
                 'A700': '#275498',
                 'contrastDefaultColor': 'light',
-                'contrastDarkColors': '50 100 200 A100',
+                'contrastDarkColors': '50 100 50 A100',
                 'contrastStrongLightColors': '300 400'
             }
         },

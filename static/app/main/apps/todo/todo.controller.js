@@ -241,8 +241,8 @@
          * @returns {boolean}
          */
         function filterByStartDate(item) {
-            if (vm.taskFilters.startDate === true) {
-                return item.startDate === new Date();
+            if (vm.taskFilters.start_date === true) {
+                return item.start_date === new Date();
             }
 
             return true;
@@ -255,8 +255,8 @@
          * @returns {boolean}
          */
         function filterByDueDate(item) {
-            if (vm.taskFilters.dueDate === true) {
-                return !(item.dueDate === null || item.dueDate.length === 0);
+            if (vm.taskFilters.due_date === true) {
+                return !(item.due_date === null || item.dueDate.length === 0);
             }
 
             return true;

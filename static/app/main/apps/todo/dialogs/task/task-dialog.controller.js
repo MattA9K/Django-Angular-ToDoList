@@ -45,15 +45,31 @@
         //////////
 
 
-
-
-
         /**
          * Add new task
+         * "2017-02-23T20:58:17.283Z"
          */
         function addNewTask() {
             vm.tasks.unshift(vm.task);
+            console.log('TASK ADDED!!!');
+            console.log(vm.task);
+            console.log(vm.task.dueDateTimeStamp);
+            console.log(vm.task.due_date);
 
+            var csrf = document.getElementsByName("csrfmiddlewaretoken");
+            $http({
+                method: 'POST',
+                url: '/todo/todolist/?format=json',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrf[0].value
+                },
+                data: vm.task
+            }).then(function successCallback(response) {
+                console.log('SUCCESS WITH PUT METHOD');
+            }, function errorCallback(response) {
+                console.log('ERROR WITH PUT METHOD');
+            });
             closeDialog();
         }
 
@@ -74,7 +90,7 @@
                         url: '/todo/' + vm.tasks[i].id + '/?format=json',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRFToken':csrf[0].value
+                            'X-CSRFToken': csrf[0].value
                         },
                         data: vm.tasks[i]
                     }).then(function successCallback(response) {
@@ -88,7 +104,7 @@
 
             closeDialog();
         }
-        
+
 
         /**
          * Delete task
