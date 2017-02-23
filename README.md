@@ -1,10 +1,10 @@
 # Material Design - To Do List
-## Powered By Django-REST and AngularJS
+### Powered By Django-REST and AngularJS
 
 
 A simple Djangon REST app scaffold to be used as a starting point for new Django REST projects.
 
-### requires Python 3
+#### Python 3 and Django 1.10 are recommended
 
 
 
